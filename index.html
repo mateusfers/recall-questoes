@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RECALL Questões — Treinador de Provas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <h1 class="logo">RECALL<span class="logo-dot">.</span>Questões</h1>
+    <span class="logo-sub">Treinador de Provas</span>
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="btnPadrao" title="Padrão do Professor">📊</button>
+    <button class="btn-icon" id="btnProva" title="Modo Prova">🎯</button>
+    <button class="btn-icon" id="btnReset" title="Resetar">🔄</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar questão...">
+  </div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <button class="nav-item active" data-section="home">🏠 Home</button>
+    <button class="nav-item" data-section="secao1">📋 Seção 1 — Questões-Base</button>
+    <button class="nav-item" data-section="secao2">📘 Seção 2 — Capítulo 1</button>
+    <button class="nav-item" data-section="secao3">📗 Seção 3 — Capítulo 2</button>
+    <button class="nav-item" data-section="secao4">📕 Seção 4 — Capítulo 6</button>
+  </div>
+  <div class="sidebar-footer">
+    <div class="progress-full"><div class="progress-full-bar" id="progressFullBar"></div></div>
+    <span class="progress-full-text" id="progressFullText">Progresso: 0%</span>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay"></div>
+
+<main class="main" id="main">
+
+<!-- ==================== HOME ==================== -->
+<section class="section active" id="home">
+  <div class="hero">
+    <h1 class="hero-title">Treinador de Provas</h1>
+    <p class="hero-sub">Análise inteligente do padrão do professor + resolução completa de <strong>165 questões</strong>.</p>
+
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-num" id="statTotal">165</span>
+        <span class="stat-label">Questões</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="statProvaveis">18</span>
+        <span class="stat-label">Prováveis</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="statResolvidas">0</span>
+        <span class="stat-label">Resolvidas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="statAcertos">0%</span>
+        <span class="stat-label">Acerto</span>
+      </div>
+    </div>
+
+    <div class="hero-cards">
+      <div class="hero-card" onclick="irParaSecao('secao1')">
+        <span class="hero-card-icon">📋</span>
+        <h3>Seção 1 — Questões-Base</h3>
+        <p>Lista + Provas Antigas + Livro Indicado. Base para análise do padrão.</p>
+      </div>
+      <div class="hero-card" onclick="irParaSecao('secao2')">
+        <span class="hero-card-icon">📘</span>
+        <h3>Capítulo 1</h3>
+        <p>36 questões com classificação PROVÁVEL.</p>
+      </div>
+      <div class="hero-card" onclick="irParaSecao('secao3')">
+        <span class="hero-card-icon">📗</span>
+        <h3>Capítulo 2</h3>
+        <p>65 questões com classificação PROVÁVEL.</p>
+      </div>
+      <div class="hero-card" onclick="irParaSecao('secao4')">
+        <span class="hero-card-icon">📕</span>
+        <h3>Capítulo 6 — Impasse</h3>
+        <p>44 questões com classificação PROVÁVEL.</p>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="ativarModoProva()">🎯 Modo Prova</button>
+      <button class="btn btn-secondary" onclick="abrirPadrao()">📊 Ver Padrão do Professor</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SEÇÃO 1 — QUESTÕES-BASE ==================== -->
+<section class="section" id="secao1">
+  <div class="section-header">
+    <span class="section-tag">Seção 1</span>
+    <h2>📋 Questões-Base</h2>
+    <p class="section-sub">Lista + Provas Antigas + Livro Indicado — base para análise do padrão do professor.</p>
+  </div>
+
+  <div class="filtros" id="filtrosSecao1">
+    <button class="filtro active" data-filtro="all">Todas</button>
+    <button class="filtro" data-filtro="LISTA">📝 Lista</button>
+    <button class="filtro" data-filtro="PROVA">🎓 Prova Antiga</button>
+    <button class="filtro" data-filtro="LIVRO">📖 Livro Indicada</button>
+  </div>
+
+  <div class="questoes-container" id="questoesSecao1"></div>
+</section>
+
+<!-- ==================== SEÇÃO 2 — CAPÍTULO 1 ==================== -->
+<section class="section" id="secao2">
+  <div class="section-header">
+    <span class="section-tag">Seção 2</span>
+    <h2>📘 Capítulo 1 — Introdução</h2>
+    <p class="section-sub">36 questões classificadas por proximidade com o padrão do professor.</p>
+  </div>
+
+  <div class="padrao-box" id="padraoSecao2"></div>
+
+  <div class="filtros" id="filtrosSecao2">
+    <button class="filtro active" data-filtro="all">Todas</button>
+    <button class="filtro" data-filtro="PROVAVEL">⭐ Prováveis</button>
+    <button class="filtro" data-filtro="ALTA">🟢 Alta semelhança</button>
+    <button class="filtro" data-filtro="MODERADA">🟡 Moderada</button>
+    <button class="filtro" data-filtro="BAIXA">⚪ Baixa</button>
+  </div>
+
+  <div class="questoes-container" id="questoesSecao2"></div>
+</section>
+
+<!-- ==================== SEÇÃO 3 — CAPÍTULO 2 ==================== -->
+<section class="section" id="secao3">
+  <div class="section-header">
+    <span class="section-tag">Seção 3</span>
+    <h2>📗 Capítulo 2 — Processos e Threads</h2>
+    <p class="section-sub">65 questões classificadas por proximidade com o padrão do professor.</p>
+  </div>
+
+  <div class="padrao-box" id="padraoSecao3"></div>
+
+  <div class="filtros" id="filtrosSecao3">
+    <button class="filtro active" data-filtro="all">Todas</button>
+    <button class="filtro" data-filtro="PROVAVEL">⭐ Prováveis</button>
+    <button class="filtro" data-filtro="ALTA">🟢 Alta semelhança</button>
+    <button class="filtro" data-filtro="MODERADA">🟡 Moderada</button>
+    <button class="filtro" data-filtro="BAIXA">⚪ Baixa</button>
+  </div>
+
+  <div class="questoes-container" id="questoesSecao3"></div>
+</section>
+
+<!-- ==================== SEÇÃO 4 — CAPÍTULO 6 ==================== -->
+<section class="section" id="secao4">
+  <div class="section-header">
+    <span class="section-tag">Seção 4</span>
+    <h2>📕 Capítulo 6 — Impasse</h2>
+    <p class="section-sub">44 questões classificadas por proximidade com o padrão do professor.</p>
+  </div>
+
+  <div class="padrao-box" id="padraoSecao4"></div>
+
+  <div class="filtros" id="filtrosSecao4">
+    <button class="filtro active" data-filtro="all">Todas</button>
+    <button class="filtro" data-filtro="PROVAVEL">⭐ Prováveis</button>
+    <button class="filtro" data-filtro="ALTA">🟢 Alta semelhança</button>
+    <button class="filtro" data-filtro="MODERADA">🟡 Moderada</button>
+    <button class="filtro" data-filtro="BAIXA">⚪ Baixa</button>
+  </div>
+
+  <div class="questoes-container" id="questoesSecao4"></div>
+</section>
+
+</main>
+
+<!-- PAINEL: PADRÃO DO PROFESSOR -->
+<div class="panel" id="panelPadrao">
+  <div class="panel-header">
+    <h2>📊 Padrão do Professor</h2>
+    <button class="btn-close" onclick="closePanel('panelPadrao')">✕</button>
+  </div>
+  <div class="panel-body" id="padraoBody"></div>
+</div>
+
+<!-- PAINEL: MODO PROVA -->
+<div class="panel" id="panelProva">
+  <div class="panel-header">
+    <h2>🎯 Modo Prova</h2>
+    <button class="btn-close" onclick="closePanel('panelProva')">✕</button>
+  </div>
+  <div class="panel-body" id="provaBody"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
